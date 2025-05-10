@@ -17,21 +17,22 @@ pipeline {
                 sh "git clone https://github.com/ayakhouidem/tp2jenkins.git"
             }
         }
-stage("Generate image ") {
-            steps {
-                  dir("tp2jenkins"){
-                  sh"mvn clean install"
-                  sh"docker build -t tp2jenk ."
 
+        stage("Generate image") {
+            steps {
+                dir("tp2jenkins") {
+                    sh "mvn clean install"
+                    sh "docker build -t tp2jenk ."
+                }
+            }
+        }
+
+        stage("Run docker compose") {
+            steps {
+                dir("tp2jenkins") {
+                    sh "docker compose up -d"
+                }
             }
         }
     }
-stage("run docker compose  ") {
-            steps {
-                  dir("tp2jenkins"){
-                  sh"docker compose up -d"
-
-            }
-        }
-
 }
